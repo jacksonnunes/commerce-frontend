@@ -1,22 +1,30 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const Container = styled.a`
+interface ContainerProps {
+  isAdm?: boolean;
+}
+
+export const Container = styled.div<ContainerProps>`
+  cursor: pointer;
   width: 400px;
-  height: 220px;
+  min-height: 220px;
+  margin: 9px;
 
   display: flex;
   flex-direction: column;
 
   background: #fcfdff;
-  box-shadow: 4px 4px 14px rgba(204, 204, 204, 0.25);
+  box-shadow: 2px 2px 2px rgba(204, 204, 204, 0.5);
   border-radius: 20px;
 
-  padding: 14px 14px;
+  padding: 14px;
   transition: all 0.2s ease;
 
-  & + a {
-    margin-left: 18px;
-  }
+  ${props =>
+    props.isAdm &&
+    css`
+      cursor: default;
+    `}
 
   .product-header {
     display: flex;
@@ -30,10 +38,15 @@ export const Container = styled.a`
       margin-right: 16px;
     }
 
+    h3 {
+      margin-right: 20px;
+    }
+
     p {
       color: #8b8b8b;
       font-size: 14px;
       margin-top: 12px;
+      margin-right: 20px;
     }
   }
 
@@ -67,6 +80,19 @@ export const Container = styled.a`
       h3 {
         color: #ececec;
       }
+    }
+  }
+
+  .icons {
+    margin: 12px 0 0 0;
+    text-align: end;
+
+    svg {
+      cursor: pointer;
+    }
+
+    svg:first-child {
+      margin-right: 48px;
     }
   }
 `;

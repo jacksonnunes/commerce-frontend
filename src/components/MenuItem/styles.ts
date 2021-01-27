@@ -1,6 +1,11 @@
-import styled from 'styled-components';
+/* eslint-disable prettier/prettier */
+import styled, { css } from 'styled-components';
 
-export const Container = styled.a`
+interface ContainerProps {
+  isAdm?: boolean;
+}
+
+export const Container = styled.a<ContainerProps>`
   width: 230px;
   height: 60px;
 
@@ -18,6 +23,16 @@ export const Container = styled.a`
     box-shadow: 2px 2px 4px #febd2e, -2px -2px 4px #febd2e, 2px -2px 4px #febd2e,
       -2px 2px 4px #febd2e;
     border: 2px solid #febd2e;
+
+    ${props =>
+    props.isAdm &&
+    css`
+        color: #ececec;
+        background: #2e78ff;
+        box-shadow: 2px 2px 4px #2e78ff, -2px -2px 4px #2e78ff,
+          2px -2px 4px #2e78ff, -2px 2px 4px #2e78ff;
+        border: 2px solid #2e78ff;
+      `}
   }
 
   & + a {
@@ -35,5 +50,22 @@ export const Container = styled.a`
 
   p {
     font-size: 18px;
+  }
+
+  @media only screen and (max-width: 1170px) {
+    width: 63px;
+
+    &:hover {
+      width: 230px;
+      overflow: hidden;
+
+      p {
+        display: block;
+      }
+    }
+
+    p {
+      display: none;
+    }
   }
 `;

@@ -1,8 +1,21 @@
 import styled from 'styled-components';
 
-export const Content = styled.div`
+export const Container = styled.div`
   max-width: 1450px;
   margin: 0 auto;
+
+  button {
+    width: 240px;
+    height: 54px;
+    margin: 0 0 23px 23px;
+
+    font-size: 18px;
+    font-weight: 400;
+
+    svg {
+      margin: 0 14px 0 0;
+    }
+  }
 `;
 
 export const Title = styled.h1`

@@ -1,21 +1,16 @@
-/* eslint-disable prettier/prettier */
 import React, { useCallback, useEffect, useState } from 'react';
+import { FiPlusSquare } from 'react-icons/fi';
 
 import api from '../../services/api';
 import formatValue from '../../utils/formatValue';
 
+import Button from '../../components/Button';
 import MenuItem from '../../components/MenuItem';
 import Header from '../../components/Header';
 import Product from '../../components/Product';
-import Footer from '../../components/Footer';
+import ProductForm from '../../components/ProductForm';
 
-import {
-  Title,
-  Menu,
-  Aside,
-  Content,
-  ProductsContainer,
-} from './styles';
+import { Container, Title, Menu, Aside, ProductsContainer } from './styles';
 
 interface Category {
   id: string;
@@ -32,9 +27,11 @@ interface Product {
   image: string;
 }
 
-const Homepage: React.FC = () => {
+const ProductManagement: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
+
+  const [isShown, setIsShown] = useState(false);
 
   useEffect(() => {
     async function getCategories(): Promise<void> {
@@ -52,21 +49,29 @@ const Homepage: React.FC = () => {
     getCategories();
   }, []);
 
-  const handleGetProductsByCategories = useCallback(async (
-    categoryName: string,
-  ) => {
-    const response = await api.get<Product[]>(`/products/${categoryName}`);
+  const handleGetProductsByCategories = useCallback(
+    async (categoryName: string) => {
+      const response = await api.get<Product[]>(`/products/${categoryName}`);
 
-    const newProductsList = response.data;
+      const newProductsList = response.data;
 
-    setProducts(newProductsList);
-  }, []);
+      setProducts(newProductsList);
+    },
+    [],
+  );
 
   return (
     <>
-      <Header />
-      <Content>
-        <Title>Nossos produtos</Title>
+      <ProductForm isShown={isShown} />
+      <Header isAdm />
+
+      <Container>
+        <Title>Gerenciamento de Produtos</Title>
+        <Button onClick={() => setIsShown(true)}>
+          <FiPlusSquare size={24} />
+          Novo produto
+        </Button>
+
         <Menu>
           <Aside>
             {categories.map(category => (
@@ -74,8 +79,10 @@ const Homepage: React.FC = () => {
                 key={category.id}
                 src={`http://localhost:3333/files/${category.icon_image}`}
                 onClick={() =>
+                  // eslint-disable-next-line prettier/prettier
                   handleGetProductsByCategories(category.category_name)}
                 text={category.category_name}
+                isAdm
               />
             ))}
           </Aside>
@@ -88,15 +95,14 @@ const Homepage: React.FC = () => {
                 description={product.description}
                 quantity={product.available_quantity}
                 price={formatValue(product.price)}
+                isAdm
               />
             ))}
           </ProductsContainer>
         </Menu>
-
-        <Footer />
-      </Content>
+      </Container>
     </>
   );
 };
 
-export default Homepage;
+export default ProductManagement;
