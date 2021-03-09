@@ -26,9 +26,9 @@ const DropMenu: React.FC<DropMenuProps> = ({ isOpen, ...rest }) => {
         <FiList size={22} />
         Pedidos
       </Link>
-      <Link to="/orders">
+      <Link to="/account">
         <FiUser size={22} />
-        Gerrenciar conta
+        Gerenciar conta
       </Link>
       <Link to="/orders">
         <FiMail size={22} />

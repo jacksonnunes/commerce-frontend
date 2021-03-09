@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { useCallback, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import api from '../../services/api';
 import formatValue from '../../utils/formatValue';
@@ -10,9 +11,7 @@ import Product from '../../components/Product';
 import Footer from '../../components/Footer';
 
 import {
-  Title,
-  Menu,
-  Aside,
+  CategoriesContainer,
   Content,
   ProductsContainer,
 } from './styles';
@@ -27,71 +26,89 @@ interface Product {
   id: string;
   name: string;
   description: string;
-  available_quantity: number;
+  quantity: number;
   price: number;
   image: string;
 }
 
 const Homepage: React.FC = () => {
+  const history = useHistory();
+
   const [categories, setCategories] = useState<Category[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string | undefined>();
 
   useEffect(() => {
-    async function getCategories(): Promise<void> {
+    async function loadCategories(): Promise<void> {
       const response = await api.get<Category[]>('/categories');
       const categoriesList = response.data;
       setCategories(categoriesList);
-
-      const firstCategory = categoriesList[0];
-      const categoryName = firstCategory.category_name;
-      const resp = await api.get<Product[]>(`/products/${categoryName}`);
-      const productsList = resp.data;
-
-      setProducts(productsList);
     }
-    getCategories();
+    loadCategories();
   }, []);
 
-  const handleGetProductsByCategories = useCallback(async (
-    categoryName: string,
+  useEffect(() => {
+    async function loadProducts(): Promise<void> {
+      if (selectedCategory) {
+        const response = await api.get<Product[]>(`/products/category/${selectedCategory}`);
+
+        const productsList = response.data;
+
+        setProducts(productsList);
+      } else {
+        const response = await api.get<Product[]>('/products');
+
+        const productsList = response.data;
+
+        setProducts(productsList);
+      }
+    }
+    loadProducts();
+  }, [selectedCategory]);
+
+  const handleSelectCategory = useCallback((
+    category_id: string,
   ) => {
-    const response = await api.get<Product[]>(`/products/${categoryName}`);
+    if (selectedCategory === category_id) {
+      setSelectedCategory(undefined);
+    } else {
+      setSelectedCategory(category_id);
+    }
+  }, [selectedCategory]);
 
-    const newProductsList = response.data;
-
-    setProducts(newProductsList);
-  }, []);
+  const handleProductDetail = useCallback((id: string) => {
+    history.push(`/details/${id}`);
+  }, [history])
 
   return (
     <>
       <Header />
       <Content>
-        <Title>Nossos produtos</Title>
-        <Menu>
-          <Aside>
-            {categories.map(category => (
-              <MenuItem
-                key={category.id}
-                src={`http://localhost:3333/files/${category.icon_image}`}
-                onClick={() =>
-                  handleGetProductsByCategories(category.category_name)}
-                text={category.category_name}
-              />
-            ))}
-          </Aside>
-          <ProductsContainer>
-            {products.map(product => (
-              <Product
-                key={product.id}
-                src={`http://localhost:3333/files/${product.image}`}
-                name={product.name}
-                description={product.description}
-                quantity={product.available_quantity}
-                price={formatValue(product.price)}
-              />
-            ))}
-          </ProductsContainer>
-        </Menu>
+        <CategoriesContainer>
+          {categories.map(category => (
+            <MenuItem
+              key={category.id}
+              src={`http://localhost:3333/files/${category.icon_image}`}
+              onClick={() =>
+                handleSelectCategory(category.id)}
+              text={category.category_name}
+              isSelected={selectedCategory === category.id}
+            />
+          ))}
+        </CategoriesContainer>
+        <ProductsContainer>
+          {products.map(product => (
+            <Product
+              key={product.id}
+              src={`http://localhost:3333/files/${product.image}`}
+              name={product.name}
+              description={product.description}
+              quantity={product.quantity}
+              price={formatValue(product.price)}
+              onClick={() => handleProductDetail(product.id)}
+            />
+          ))}
+        </ProductsContainer>
 
         <Footer />
       </Content>

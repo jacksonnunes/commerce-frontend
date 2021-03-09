@@ -9,18 +9,21 @@ export const Container = styled.div<ContainerProps>`
   padding: 30px;
   background: #f5f3f0;
   border-radius: 5px;
-  width: 370px;
+  width: 360px;
   height: 390px;
 
   box-shadow: 2px 2px 8px #aaa;
+  transition: visibility 0.3s, opacity 0.3s ease;
 
   ${props =>
     props.isOpen
       ? css`
-          display: block;
+          visibility: visible;
+          opacity: 1;
         `
       : css`
-          display: none;
+          visibility: hidden;
+          opacity: 0;
         `}
 
   a {

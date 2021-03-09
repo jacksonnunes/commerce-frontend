@@ -4,11 +4,14 @@ import { FiPlusSquare } from 'react-icons/fi';
 import api from '../../services/api';
 import formatValue from '../../utils/formatValue';
 
+import { useProductForm } from '../../hooks/productRegister';
+
 import Button from '../../components/Button';
 import MenuItem from '../../components/MenuItem';
 import Header from '../../components/Header';
 import Product from '../../components/Product';
-import ProductForm from '../../components/ProductForm';
+
+import noImage from '../../assets/images/no-image.png';
 
 import { Container, Title, Menu, Aside, ProductsContainer } from './styles';
 
@@ -28,10 +31,10 @@ interface Product {
 }
 
 const ProductManagement: React.FC = () => {
+  const { addProductRegister } = useProductForm();
+
   const [categories, setCategories] = useState<Category[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
-
-  const [isShown, setIsShown] = useState(false);
 
   useEffect(() => {
     async function getCategories(): Promise<void> {
@@ -62,12 +65,11 @@ const ProductManagement: React.FC = () => {
 
   return (
     <>
-      <ProductForm isShown={isShown} />
       <Header isAdm />
 
       <Container>
         <Title>Gerenciamento de Produtos</Title>
-        <Button onClick={() => setIsShown(true)}>
+        <Button onClick={() => addProductRegister()}>
           <FiPlusSquare size={24} />
           Novo produto
         </Button>
@@ -82,7 +84,6 @@ const ProductManagement: React.FC = () => {
                   // eslint-disable-next-line prettier/prettier
                   handleGetProductsByCategories(category.category_name)}
                 text={category.category_name}
-                isAdm
               />
             ))}
           </Aside>
@@ -90,12 +91,15 @@ const ProductManagement: React.FC = () => {
             {products.map(product => (
               <Product
                 key={product.id}
-                src={`http://localhost:3333/files/${product.image}`}
+                src={
+                  product.image
+                    ? `http://localhost:3333/files/${product.image}`
+                    : `${noImage}`
+                }
                 name={product.name}
                 description={product.description}
                 quantity={product.available_quantity}
                 price={formatValue(product.price)}
-                isAdm
               />
             ))}
           </ProductsContainer>
