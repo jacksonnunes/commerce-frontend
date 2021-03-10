@@ -21,8 +21,6 @@ import Button from '../Button';
 import Input from '../Input';
 import SelectInput from '../SelectInput';
 
-import noImage from '../../assets/images/no-image.png';
-
 import { Container, Content } from './styles';
 
 interface Category {
@@ -125,16 +123,12 @@ const ProductRegister: React.FC<ProductRegisterProps> = ({
         });
 
         removeProductRegister();
-
-        console.log(product_category_id);
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
 
           formRef.current?.setErrors(errors);
         }
-
-        console.log(product_category_id);
       }
     },
     [removeProductRegister, selectedOption?.value],

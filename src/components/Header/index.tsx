@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FiChevronDown, FiUser } from 'react-icons/fi';
 import { ClickAwayListener } from '@material-ui/core';
+
 import ShoppingCart from '../ShoppingCart';
 import DropMenu from '../DropMenu';
 

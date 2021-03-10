@@ -1,12 +1,12 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { FiMinus, FiPlus, FiShoppingCart } from 'react-icons/fi';
-import { useParams } from 'react-router-dom';
 
 import Button from '../../components/Button';
-import api from '../../services/api';
 import formatValue from '../../utils/formatValue';
+import { useProductDetails } from '../../hooks/productDetails';
+import { useCart } from '../../hooks/cart';
 
-import { Container, Content, Section } from './styles';
+import { Container, Overlay, Content, Section } from './styles';
 
 interface Product {
   id: string;
@@ -17,27 +17,20 @@ interface Product {
   image: string;
 }
 
-interface ParamsDTO {
-  id: string;
+interface ProductDetailsProps {
+  product: Product;
+  isShown: boolean;
 }
 
-const ProductDetails: React.FC = () => {
-  const { id } = useParams<ParamsDTO>();
+const ProductDetails: React.FC<ProductDetailsProps> = ({
+  product,
+  isShown,
+  ...rest
+}) => {
+  const { removeProductDetails } = useProductDetails();
+  const { addToCart } = useCart();
 
-  const [product, setProduct] = useState<Product>({} as Product);
   const [productQuantity, setProductQuantity] = useState<number>(1);
-
-  useEffect(() => {
-    async function loadProduct(): Promise<void> {
-      const response = await api.get<Product>(`/products/${id}`);
-
-      const prod = response.data;
-
-      setProduct(prod);
-    }
-
-    loadProduct();
-  }, [id]);
 
   const handleIncrementProduct = useCallback(() => {
     if (productQuantity < product.quantity) {
@@ -53,12 +46,23 @@ const ProductDetails: React.FC = () => {
     setProductQuantity(productQuantity - 1);
   }, [productQuantity]);
 
+  const handleSubmit = useCallback(() => {
+    addToCart({ ...product, quantity: productQuantity });
+    removeProductDetails();
+  }, [addToCart, removeProductDetails, product, productQuantity]);
+
   const productTotal = useMemo(() => {
     return formatValue(product.price * productQuantity);
   }, [product.price, productQuantity]);
 
   return (
-    <Container>
+    <Container isShown={isShown} {...rest}>
+      <Overlay
+        onClick={() => {
+          removeProductDetails();
+          setProductQuantity(1);
+        }}
+      />
       <Content>
         <img src={`http://localhost:3333/files/${product.image}`} alt="" />
         <div>
@@ -78,7 +82,7 @@ const ProductDetails: React.FC = () => {
             <h3>{productTotal}</h3>
           </Section>
 
-          <Button>
+          <Button onClick={handleSubmit}>
             <FiShoppingCart size={24} />
             Comprar
           </Button>

@@ -5,13 +5,11 @@ import Route from './Route';
 
 import Signin from '../pages/Signin';
 import Signup from '../pages/Signup';
-
 import Homepage from '../pages/Homepage';
-
-import ProductDetails from '../pages/ProductDetails';
 
 import AccountManagement from '../pages/AccountManagement';
 import ProductsManagement from '../pages/ProductsManagement';
+import Cart from '../pages/Cart';
 
 const Routes: React.FC = () => (
   <Switch>
@@ -19,13 +17,13 @@ const Routes: React.FC = () => (
     <Route path="/signup" component={Signup} />
 
     <Route path="/home" component={Homepage} isPrivate />
-    <Route path="/details/:id" component={ProductDetails} isPrivate />
     <Route
       path="/products-management"
       component={ProductsManagement}
       isPrivate
     />
     <Route path="/account" component={AccountManagement} isPrivate />
+    <Route path="/cart" component={Cart} isPrivate />
   </Switch>
 );
 

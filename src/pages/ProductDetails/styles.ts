@@ -1,20 +1,51 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { shade } from 'polished';
 
-export const Container = styled.div`
+interface ContainerProps {
+  isShown: boolean;
+}
+
+export const Container = styled.div<ContainerProps>`
+  position: absolute;
+  top: 0;
+
+  visibility: hidden;
+  opacity: 0;
+
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  width: 100vw;
 
   background: rgba(0, 0, 0, 0.4);
+  transition: all 0.2s ease;
+
+  ${props =>
+    props.isShown &&
+    css`
+      visibility: visible;
+      opacity: 1;
+    `}
+`;
+
+export const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+
+  z-index: 2;
 `;
 
 export const Content = styled.div`
+  position: relative;
   background: #fcfdff;
   max-width: 450px;
   margin: 8px;
   border-radius: 12px;
+  z-index: 3;
 
   img {
     width: 100%;

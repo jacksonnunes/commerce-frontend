@@ -1,9 +1,10 @@
 /* eslint-disable prettier/prettier */
 import React, { useCallback, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 
 import api from '../../services/api';
 import formatValue from '../../utils/formatValue';
+import { useProductDetails } from '../../hooks/productDetails';
 
 import MenuItem from '../../components/MenuItem';
 import Header from '../../components/Header';
@@ -32,7 +33,8 @@ interface Product {
 }
 
 const Homepage: React.FC = () => {
-  const history = useHistory();
+  // const history = useHistory();
+  const { addProductDetails } = useProductDetails();
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
@@ -76,9 +78,9 @@ const Homepage: React.FC = () => {
     }
   }, [selectedCategory]);
 
-  const handleProductDetail = useCallback((id: string) => {
-    history.push(`/details/${id}`);
-  }, [history])
+  // const handleProductDetail = useCallback((id: string) => {
+  //   history.push(`/details/${id}`);
+  // }, [history])
 
   return (
     <>
@@ -105,7 +107,7 @@ const Homepage: React.FC = () => {
               description={product.description}
               quantity={product.quantity}
               price={formatValue(product.price)}
-              onClick={() => handleProductDetail(product.id)}
+              onClick={() => addProductDetails(product.id)}
             />
           ))}
         </ProductsContainer>
