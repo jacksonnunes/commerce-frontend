@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import GlobalStyle from './styles/global';
 
@@ -11,9 +11,9 @@ const App: React.FC = () => {
   return (
     <>
       <AppProvider>
-        <BrowserRouter>
+        <Router>
           <Routes />
-        </BrowserRouter>
+        </Router>
       </AppProvider>
 
       <GlobalStyle />

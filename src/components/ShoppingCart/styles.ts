@@ -5,6 +5,11 @@ export const Container = styled.div`
   margin-right: 40px;
   position: relative;
 
+  a {
+    text-decoration: none;
+    color: #242424;
+  }
+
   div {
     display: flex;
     justify-content: center;

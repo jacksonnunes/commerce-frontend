@@ -46,10 +46,21 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
     setProductQuantity(productQuantity - 1);
   }, [productQuantity]);
 
+  const handleSetProductQuantityTo1 = useCallback(() => {
+    setProductQuantity(1);
+  }, []);
+
   const handleSubmit = useCallback(() => {
     addToCart({ ...product, quantity: productQuantity });
     removeProductDetails();
-  }, [addToCart, removeProductDetails, product, productQuantity]);
+    setTimeout(handleSetProductQuantityTo1, 300);
+  }, [
+    addToCart,
+    removeProductDetails,
+    product,
+    productQuantity,
+    handleSetProductQuantityTo1,
+  ]);
 
   const productTotal = useMemo(() => {
     return formatValue(product.price * productQuantity);
@@ -59,8 +70,8 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
     <Container isShown={isShown} {...rest}>
       <Overlay
         onClick={() => {
+          setTimeout(handleSetProductQuantityTo1, 300);
           removeProductDetails();
-          setProductQuantity(1);
         }}
       />
       <Content>
@@ -84,7 +95,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
 
           <Button onClick={handleSubmit}>
             <FiShoppingCart size={24} />
-            Comprar
+            Adicionar ao carrinho
           </Button>
         </div>
       </Content>

@@ -18,7 +18,7 @@ interface DropMenuProps {
 }
 
 const DropMenu: React.FC<DropMenuProps> = ({ isOpen, ...rest }) => {
-  const { signOut } = useAuth();
+  const { signOut, user } = useAuth();
 
   return (
     <Container isOpen={isOpen} {...rest}>
@@ -30,18 +30,22 @@ const DropMenu: React.FC<DropMenuProps> = ({ isOpen, ...rest }) => {
         <FiUser size={22} />
         Gerenciar conta
       </Link>
-      <Link to="/orders">
+      <Link to="/address">
         <FiMail size={22} />
         Endereços
       </Link>
-      <Link to="/products-management">
-        <FiClipboard size={22} />
-        Gerenciar produtos
-      </Link>
-      <Link to="/orders">
-        <FiSettings size={22} />
-        Administrativo
-      </Link>
+      {user.role === 'user_admin' && (
+        <>
+          <Link to="/products-management">
+            <FiClipboard size={22} />
+            Gerenciar produtos
+          </Link>
+          <Link to="/orders">
+            <FiSettings size={22} />
+            Administrativo
+          </Link>
+        </>
+      )}
       <Link to="/" onClick={() => signOut()}>
         <FiLogOut size={22} />
         Sair

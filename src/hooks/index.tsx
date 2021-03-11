@@ -7,15 +7,15 @@ import { ProductDetailsProvider } from './productDetails';
 import { CartProvider } from './cart';
 
 const AppProvider: React.FC = ({ children }) => (
-  <AuthProvider>
-    <ToastProvider>
+  <ToastProvider>
+    <AuthProvider>
       <CartProvider>
         <ProductDetailsProvider>
           <ProductRegisterProvider>{children}</ProductRegisterProvider>
         </ProductDetailsProvider>
       </CartProvider>
-    </ToastProvider>
-  </AuthProvider>
+    </AuthProvider>
+  </ToastProvider>
 );
 
 export default AppProvider;

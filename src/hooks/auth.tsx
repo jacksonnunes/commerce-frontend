@@ -6,6 +6,7 @@ interface User {
   name: string;
   email: string;
   phone: string;
+  role: string;
 }
 
 interface AuthState {
@@ -35,7 +36,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     const user = localStorage.getItem('@RivoliConf:user');
 
     if (token && user) {
-      api.defaults.headers.authorization = `Bearer ${token}`;
+      // api.defaults.headers.authorization = `Bearer ${token}`;
 
       return { token, user: JSON.parse(user) };
     }

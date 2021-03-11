@@ -1,6 +1,4 @@
-/* eslint-disable prettier/prettier */
 import React, { useCallback, useEffect, useState } from 'react';
-// import { useHistory } from 'react-router-dom';
 
 import api from '../../services/api';
 import formatValue from '../../utils/formatValue';
@@ -9,13 +7,8 @@ import { useProductDetails } from '../../hooks/productDetails';
 import MenuItem from '../../components/MenuItem';
 import Header from '../../components/Header';
 import Product from '../../components/Product';
-import Footer from '../../components/Footer';
 
-import {
-  CategoriesContainer,
-  Content,
-  ProductsContainer,
-} from './styles';
+import { CategoriesContainer, Content, ProductsContainer } from './styles';
 
 interface Category {
   id: string;
@@ -33,12 +26,13 @@ interface Product {
 }
 
 const Homepage: React.FC = () => {
-  // const history = useHistory();
   const { addProductDetails } = useProductDetails();
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string | undefined>();
+  const [selectedCategory, setSelectedCategory] = useState<
+    string | undefined
+  >();
 
   useEffect(() => {
     async function loadCategories(): Promise<void> {
@@ -52,7 +46,9 @@ const Homepage: React.FC = () => {
   useEffect(() => {
     async function loadProducts(): Promise<void> {
       if (selectedCategory) {
-        const response = await api.get<Product[]>(`/products/category/${selectedCategory}`);
+        const response = await api.get<Product[]>(
+          `/products/category/${selectedCategory}`,
+        );
 
         const productsList = response.data;
 
@@ -68,19 +64,16 @@ const Homepage: React.FC = () => {
     loadProducts();
   }, [selectedCategory]);
 
-  const handleSelectCategory = useCallback((
-    category_id: string,
-  ) => {
-    if (selectedCategory === category_id) {
-      setSelectedCategory(undefined);
-    } else {
-      setSelectedCategory(category_id);
-    }
-  }, [selectedCategory]);
-
-  // const handleProductDetail = useCallback((id: string) => {
-  //   history.push(`/details/${id}`);
-  // }, [history])
+  const handleSelectCategory = useCallback(
+    (category_id: string) => {
+      if (selectedCategory === category_id) {
+        setSelectedCategory(undefined);
+      } else {
+        setSelectedCategory(category_id);
+      }
+    },
+    [selectedCategory],
+  );
 
   return (
     <>
@@ -91,13 +84,13 @@ const Homepage: React.FC = () => {
             <MenuItem
               key={category.id}
               src={`http://localhost:3333/files/${category.icon_image}`}
-              onClick={() =>
-                handleSelectCategory(category.id)}
+              onClick={() => handleSelectCategory(category.id)}
               text={category.category_name}
               isSelected={selectedCategory === category.id}
             />
           ))}
         </CategoriesContainer>
+
         <ProductsContainer>
           {products.map(product => (
             <Product
@@ -111,8 +104,6 @@ const Homepage: React.FC = () => {
             />
           ))}
         </ProductsContainer>
-
-        <Footer />
       </Content>
     </>
   );

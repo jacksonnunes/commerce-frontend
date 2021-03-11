@@ -25,7 +25,7 @@ interface Product {
   id: string;
   name: string;
   description: string;
-  available_quantity: number;
+  quantity: number;
   price: number;
   image: string;
 }
@@ -35,32 +35,49 @@ const ProductManagement: React.FC = () => {
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<
+    string | undefined
+  >();
 
   useEffect(() => {
-    async function getCategories(): Promise<void> {
+    async function loadCategories(): Promise<void> {
       const response = await api.get<Category[]>('/categories');
       const categoriesList = response.data;
       setCategories(categoriesList);
-
-      const firstCategory = categoriesList[0];
-      const categoryName = firstCategory.category_name;
-      const resp = await api.get<Product[]>(`/products/${categoryName}`);
-      const productsList = resp.data;
-
-      setProducts(productsList);
     }
-    getCategories();
+    loadCategories();
   }, []);
 
-  const handleGetProductsByCategories = useCallback(
-    async (categoryName: string) => {
-      const response = await api.get<Product[]>(`/products/${categoryName}`);
+  useEffect(() => {
+    async function loadProducts(): Promise<void> {
+      if (selectedCategory) {
+        const response = await api.get<Product[]>(
+          `/products/category/${selectedCategory}`,
+        );
 
-      const newProductsList = response.data;
+        const productsList = response.data;
 
-      setProducts(newProductsList);
+        setProducts(productsList);
+      } else {
+        const response = await api.get<Product[]>('/products');
+
+        const productsList = response.data;
+
+        setProducts(productsList);
+      }
+    }
+    loadProducts();
+  }, [selectedCategory]);
+
+  const handleSelectCategory = useCallback(
+    (category_id: string) => {
+      if (selectedCategory === category_id) {
+        setSelectedCategory(undefined);
+      } else {
+        setSelectedCategory(category_id);
+      }
     },
-    [],
+    [selectedCategory],
   );
 
   return (
@@ -80,10 +97,9 @@ const ProductManagement: React.FC = () => {
               <MenuItem
                 key={category.id}
                 src={`http://localhost:3333/files/${category.icon_image}`}
-                onClick={() =>
-                  // eslint-disable-next-line prettier/prettier
-                  handleGetProductsByCategories(category.category_name)}
+                onClick={() => handleSelectCategory(category.id)}
                 text={category.category_name}
+                isSelected={selectedCategory === category.id}
               />
             ))}
           </Aside>
@@ -98,7 +114,7 @@ const ProductManagement: React.FC = () => {
                 }
                 name={product.name}
                 description={product.description}
-                quantity={product.available_quantity}
+                quantity={product.quantity}
                 price={formatValue(product.price)}
               />
             ))}

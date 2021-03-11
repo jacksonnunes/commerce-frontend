@@ -36,11 +36,11 @@ export const CartProvider: React.FC = ({ children }) => {
   });
 
   const addToCart = useCallback((productData: Product) => {
+    let products: Product[] = [];
+
     const productsIntoCart = localStorage.getItem(
       '@RivoliConf:productsIntoCart',
     );
-
-    let products: Product[] = [];
 
     if (productsIntoCart) {
       products = JSON.parse(productsIntoCart);
@@ -59,7 +59,9 @@ export const CartProvider: React.FC = ({ children }) => {
       } else {
         checkProductExists.quantity += productData.quantity;
 
-        products.push(productData, ...products);
+        const indexOfExistingProduct = products.indexOf(checkProductExists);
+
+        products[indexOfExistingProduct] = checkProductExists;
 
         localStorage.setItem(
           '@RivoliConf:productsIntoCart',
