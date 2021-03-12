@@ -1,11 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FiEdit2, FiPlusSquare, FiXSquare } from 'react-icons/fi';
+import { useHistory } from 'react-router-dom';
 
 import Button from '../../components/Button';
 import Header from '../../components/Header';
 import api from '../../services/api';
 
-import { Container, Content, AddressContent, IconsSection } from './styles';
+import {
+  Container,
+  Content,
+  AddressContent,
+  IconsSection,
+  RadioButton,
+} from './styles';
 
 interface Address {
   id: string;
@@ -15,9 +22,12 @@ interface Address {
   neighborhood: string;
   city: string;
   state: string;
+  default_address: boolean;
 }
 
 const Address: React.FC = () => {
+  const history = useHistory();
+
   const [addresses, setAddresses] = useState<Address[]>([]);
 
   useEffect(() => {
@@ -32,11 +42,15 @@ const Address: React.FC = () => {
     loadAddresses();
   }, []);
 
+  const handleCreateAddress = useCallback(() => {
+    history.push('/address/create');
+  }, [history]);
+
   return (
     <>
       <Header />
       <Container>
-        <Button>
+        <Button onClick={handleCreateAddress}>
           <FiPlusSquare />
           Novo endereço
         </Button>
@@ -44,10 +58,9 @@ const Address: React.FC = () => {
         <Content>
           {addresses.map(address => (
             <AddressContent key={address.id}>
-              <IconsSection>
-                <FiEdit2 size={24} style={{ color: '#2E78FF' }} />
-                <FiXSquare size={24} style={{ color: '#FB3403' }} />
-              </IconsSection>
+              <RadioButton>
+                <input type="radio" name="setDefault" id={address.id} />
+              </RadioButton>
               <div>
                 <span>
                   {`${address.street}, ${address.address_number}`}
@@ -57,6 +70,10 @@ const Address: React.FC = () => {
                 <br />
                 <span>{`${address.neighborhood} - ${address.city}/${address.state}`}</span>
               </div>
+              <IconsSection>
+                <FiEdit2 size={24} style={{ color: '#2E78FF' }} />
+                <FiXSquare size={24} style={{ color: '#FB3403' }} />
+              </IconsSection>
             </AddressContent>
           ))}
         </Content>

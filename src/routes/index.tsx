@@ -11,6 +11,7 @@ import AccountManagement from '../pages/AccountManagement';
 import ProductsManagement from '../pages/ProductsManagement';
 import Cart from '../pages/Cart';
 import Address from '../pages/Address';
+import CreateAddress from '../pages/Address/CreateAddress';
 import Orders from '../pages/Orders';
 
 const Routes: React.FC = () => (
@@ -26,7 +27,8 @@ const Routes: React.FC = () => (
     />
     <Route path="/account" component={AccountManagement} isPrivate />
     <Route path="/cart" component={Cart} isPrivate />
-    <Route path="/address" component={Address} isPrivate />
+    <Route path="/address" exact component={Address} isPrivate />
+    <Route path="/address/create" component={CreateAddress} isPrivate />
     <Route path="/orders" component={Orders} isPrivate />
   </Switch>
 );

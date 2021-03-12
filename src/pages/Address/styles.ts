@@ -38,8 +38,8 @@ export const Content = styled.div`
 
 export const AddressContent = styled.div`
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
+  align-items: center;
   align-self: stretch;
 
   width: 100%;
@@ -58,8 +58,6 @@ export const IconsSection = styled.div`
   justify-content: flex-end;
   align-items: center;
 
-  margin-bottom: 12px;
-
   svg {
     cursor: pointer;
   }
@@ -68,3 +66,5 @@ export const IconsSection = styled.div`
     margin-right: 40px;
   }
 `;
+
+export const RadioButton = styled.div``;
