@@ -26,7 +26,7 @@ interface Order {
   total: number;
   money: number;
   updated_at: Date;
-  address: {
+  address?: {
     street: string;
     address_number: number;
     complement: string;
@@ -122,10 +122,16 @@ const Cart: React.FC = () => {
               <Address>
                 <strong>Endereço de entrega</strong>
                 <span>
-                  {`${order.address.street}, ${order.address.address_number}`}
-                  {order.address.complement && ` - ${order.address.complement}`}
+                  {order.address &&
+                    `${order.address.street}, ${order.address.address_number}`}
+                  {order.address &&
+                    order.address.complement &&
+                    ` - ${order.address.complement}`}
                 </span>
-                <span>{`${order.address.neighborhood} - ${order.address.city}/${order.address.state}`}</span>
+                <span>
+                  {order.address &&
+                    `${order.address.neighborhood} - ${order.address.city}/${order.address.state}`}
+                </span>
               </Address>
             </Ticket>
           ))}

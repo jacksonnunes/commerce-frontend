@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FiChevronDown, FiUser } from 'react-icons/fi';
 import { ClickAwayListener } from '@material-ui/core';
 
+import { Link } from 'react-router-dom';
 import ShoppingCart from '../ShoppingCart';
 import DropMenu from '../DropMenu';
 
@@ -19,11 +20,13 @@ const Header: React.FC<HeaderProps> = ({ isAdm, ...rest }) => {
 
   return (
     <Container isAdm={isAdm} {...rest}>
-      <img
-        src={`${isAdm ? logoImgWhite : logoImgBlack}`}
-        alt="Rivoli Confeitaria"
-        className="logo-img"
-      />
+      <Link to="/home">
+        <img
+          src={`${isAdm ? logoImgWhite : logoImgBlack}`}
+          alt="Rivoli Confeitaria"
+          className="logo-img"
+        />
+      </Link>
       <div>
         <ShoppingCart />
         <ClickAwayListener onClickAway={() => setIsOpen(false)}>

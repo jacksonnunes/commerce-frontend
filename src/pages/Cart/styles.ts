@@ -74,7 +74,7 @@ export const ProductInfo2 = styled.div`
   }
 `;
 
-export const Address = styled.section`
+export const AddressContainer = styled.section`
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;

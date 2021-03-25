@@ -12,6 +12,7 @@ import ProductsManagement from '../pages/ProductsManagement';
 import Cart from '../pages/Cart';
 import Address from '../pages/Address';
 import CreateAddress from '../pages/Address/CreateAddress';
+import UpdateAddress from '../pages/Address/UpdateAddress';
 import Orders from '../pages/Orders';
 
 const Routes: React.FC = () => (
@@ -29,6 +30,7 @@ const Routes: React.FC = () => (
     <Route path="/cart" component={Cart} isPrivate />
     <Route path="/address" exact component={Address} isPrivate />
     <Route path="/address/create" component={CreateAddress} isPrivate />
+    <Route path="/address/update" component={UpdateAddress} isPrivate />
     <Route path="/orders" component={Orders} isPrivate />
   </Switch>
 );

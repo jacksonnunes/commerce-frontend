@@ -30,15 +30,15 @@ export const Ticket = styled.div`
   padding: 16px;
   margin: 4px;
   margin-bottom: 16px;
-  min-width: 380px;
+  width: 450px;
 
-  background: #f5f4e4;
+  background: #f5f5bc;
   box-shadow: 8px 12px 14px rgba(204, 204, 204, 0.5);
   border-radius: 8px;
 
   &:after {
-    background: linear-gradient(-45deg, transparent 16px, #f5f4e4 0),
-      linear-gradient(45deg, transparent 16px, #f5f4e4 0);
+    background: linear-gradient(-45deg, transparent 16px, #f5f5bc 0),
+      linear-gradient(45deg, transparent 16px, #f5f5bc 0);
     background-repeat: repeat-x;
     background-position: left bottom;
     background-size: 22px 32px;

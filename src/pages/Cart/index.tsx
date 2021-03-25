@@ -1,10 +1,13 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FiEdit, FiThumbsUp, FiXSquare } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import Button from '../../components/Button';
 import Header from '../../components/Header';
+import { useAuth } from '../../hooks/auth';
 import { useCart } from '../../hooks/cart';
+import { useToast } from '../../hooks/toast';
+import api from '../../services/api';
 import formatValue from '../../utils/formatValue';
 
 import {
@@ -12,14 +15,45 @@ import {
   Product,
   ProductInfo,
   ProductInfo2,
-  Address,
+  AddressContainer,
   OrderInfo,
 } from './styles';
 
+interface Address {
+  id: string;
+  street: string;
+  address_number: number;
+  complement: string;
+  neighborhood: string;
+  city: string;
+  state: string;
+}
+
 const Cart: React.FC = () => {
-  const { products, cartLength, removeFromCart } = useCart();
+  const { user } = useAuth();
+  const { addToast } = useToast();
+  const history = useHistory();
+
+  const { products, cartLength, removeFromCart, cleanCart } = useCart();
+  const [address, setAddress] = useState<Address>({} as Address);
+
+  useEffect(() => {
+    async function loadAddress(): Promise<void> {
+      const response = await api.get('/addresses/default');
+
+      const userAddress = response.data;
+
+      setAddress(userAddress);
+    }
+
+    loadAddress();
+  }, []);
 
   const cartSubtotal = useMemo(() => {
+    if (!products) {
+      return undefined;
+    }
+
     const subtotal = products.reduce((accumulator, product) => {
       return accumulator + product.quantity * product.price;
     }, 0);
@@ -32,8 +66,53 @@ const Cart: React.FC = () => {
   }, []);
 
   const cartTotal = useMemo(() => {
-    return formatValue(cartSubtotal + deliveryTax);
+    if (!cartSubtotal) {
+      return undefined;
+    }
+
+    return cartSubtotal + deliveryTax;
   }, [cartSubtotal, deliveryTax]);
+
+  const handleConfirmOrder = useCallback(async () => {
+    try {
+      const orderData = {
+        user_id: user.id,
+        address_id: address.id,
+        products,
+        delivery_tax: deliveryTax,
+        subtotal: cartSubtotal,
+        total: cartTotal,
+        money: null,
+      };
+
+      await api.post('/orders', orderData);
+
+      cleanCart();
+
+      addToast({
+        title: 'Pedido encaminhado',
+        description: 'Seu pedido logo chegará até você!',
+      });
+
+      history.push('/orders');
+    } catch (err) {
+      addToast({
+        type: 'error',
+        title: 'Erro no cadastramento',
+        description: `${err}`,
+      });
+    }
+  }, [
+    user.id,
+    address.id,
+    products,
+    deliveryTax,
+    cartSubtotal,
+    cartTotal,
+    cleanCart,
+    addToast,
+    history,
+  ]);
 
   return (
     <>
@@ -45,55 +124,66 @@ const Cart: React.FC = () => {
             : `Carrinho de compras (${cartLength()} item)`}
         </h2>
 
-        {products.map(product => (
-          <Product key={product.id}>
-            <img src={`http://localhost:3333/files/${product.image}`} alt="" />
+        {products &&
+          products.map(product => (
+            <Product key={product.id}>
+              <img
+                src={`http://localhost:3333/files/${product.image}`}
+                alt=""
+              />
 
-            <ProductInfo>
-              <h3>{product.name}</h3>
-              <span>
-                Qtde:
-                {` ${product.quantity}`}
-              </span>
-            </ProductInfo>
+              <ProductInfo>
+                <h3>{product.name}</h3>
+                <span>
+                  Qtde:
+                  {` ${product.quantity}`}
+                </span>
+              </ProductInfo>
 
-            <ProductInfo2>
-              <span>{formatValue(product.price * product.quantity)}</span>
+              <ProductInfo2>
+                <span>{formatValue(product.price * product.quantity)}</span>
 
+                <div>
+                  <FiEdit size={24} style={{ color: '#2E78FF' }} />
+
+                  <FiXSquare
+                    size={24}
+                    style={{ color: '#FB3403' }}
+                    onClick={() => removeFromCart(product)}
+                  />
+                </div>
+              </ProductInfo2>
+            </Product>
+          ))}
+
+        {products && (
+          <>
+            <AddressContainer>
               <div>
-                <FiEdit size={24} style={{ color: '#2E78FF' }} />
+                <p>Endereço de entrega</p>
+                <span>
+                  {`${address.street}, ${address.address_number}`}
+                  {address.complement && ` - ${address.complement}`}
+                </span>
 
-                <FiXSquare
-                  size={24}
-                  style={{ color: '#FB3403' }}
-                  onClick={() => removeFromCart(product)}
-                />
+                <br />
+                <span>{`${address.neighborhood} - ${address.city}/${address.state}`}</span>
               </div>
-            </ProductInfo2>
-          </Product>
-        ))}
+              <Link to="/address">Trocar endereço</Link>
+            </AddressContainer>
 
-        <Address>
-          <div>
-            <p>Endereço de entrega</p>
-            <span>Rua Aderaldo Ferreira, 165 - Casa</span>
+            <OrderInfo>
+              <p>{cartSubtotal && `Subtotal: ${formatValue(cartSubtotal)}`}</p>
+              <p>{`Taxa de entrega: ${formatValue(deliveryTax)}`}</p>
+              <p>{cartTotal && `Total: ${formatValue(cartTotal)}`}</p>
 
-            <br />
-            <span>Alto Boa Vista - Quixadá/CE</span>
-          </div>
-          <Link to="/addresses">Trocar endereço</Link>
-        </Address>
-
-        <OrderInfo>
-          <p>{`Subtotal: ${formatValue(cartSubtotal)}`}</p>
-          <p>{`Taxa de entrega: ${formatValue(deliveryTax)}`}</p>
-          <p>{`Total: ${cartTotal}`}</p>
-
-          <Button>
-            <FiThumbsUp />
-            Confirmar pedido
-          </Button>
-        </OrderInfo>
+              <Button onClick={() => handleConfirmOrder()}>
+                <FiThumbsUp />
+                Confirmar pedido
+              </Button>
+            </OrderInfo>
+          </>
+        )}
       </Container>
     </>
   );

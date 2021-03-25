@@ -37,10 +37,13 @@ export const Content = styled.div`
 `;
 
 export const AddressContent = styled.div`
+  cursor: pointer;
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
   align-self: stretch;
+  z-index: 0;
 
   width: 100%;
   max-width: 550px;
@@ -50,13 +53,25 @@ export const AddressContent = styled.div`
   background: #fcfdff;
   box-shadow: 4px 4px 14px rgba(204, 204, 204, 0.25);
   border-radius: 8px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateX(5px);
+  }
+
+  > svg {
+    color: #09b03e;
+    margin-right: 16px;
+  }
 `;
 
 export const IconsSection = styled.div`
+  position: relative;
   display: flex;
   flex: 1;
   justify-content: flex-end;
   align-items: center;
+  z-index: -1;
 
   svg {
     cursor: pointer;
@@ -66,5 +81,3 @@ export const IconsSection = styled.div`
     margin-right: 40px;
   }
 `;
-
-export const RadioButton = styled.div``;

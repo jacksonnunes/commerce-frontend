@@ -14,6 +14,7 @@ export const Container = styled.header<ContainerProps>`
 
   display: flex;
   position: relative;
+  align-items: center;
 
   ${props =>
     props.isAdm &&
@@ -29,7 +30,6 @@ export const Container = styled.header<ContainerProps>`
   > div {
     position: absolute;
     right: 50px;
-    margin-top: 42px;
 
     display: flex;
     place-content: center;

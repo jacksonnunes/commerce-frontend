@@ -17,6 +17,7 @@ interface CartContextData {
   products: Product[];
   addToCart(productData: Product): void;
   removeFromCart(product: Product): void;
+  cleanCart(): void;
   cartLength(): number;
 }
 
@@ -103,6 +104,10 @@ export const CartProvider: React.FC = ({ children }) => {
     setData({ products: newProductsList });
   }, []);
 
+  const cleanCart = useCallback(() => {
+    localStorage.removeItem('@RivoliConf:productsIntoCart');
+  }, []);
+
   const cartLength = useCallback(() => {
     const productsIntoCart = localStorage.getItem(
       '@RivoliConf:productsIntoCart',
@@ -123,6 +128,7 @@ export const CartProvider: React.FC = ({ children }) => {
         products: data.products,
         addToCart,
         removeFromCart,
+        cleanCart,
         cartLength,
       }}
     >
