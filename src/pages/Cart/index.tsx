@@ -3,7 +3,6 @@ import { FiEdit, FiThumbsUp, FiXSquare } from 'react-icons/fi';
 import { Link, useHistory } from 'react-router-dom';
 
 import Button from '../../components/Button';
-import Header from '../../components/Header';
 import { useAuth } from '../../hooks/auth';
 import { useCart } from '../../hooks/cart';
 import { useToast } from '../../hooks/toast';
@@ -116,7 +115,6 @@ const Cart: React.FC = () => {
 
   return (
     <>
-      <Header />
       <Container>
         <h2>
           {cartLength() > 1

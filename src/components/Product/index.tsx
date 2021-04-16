@@ -1,6 +1,7 @@
 import React, { HTMLAttributes } from 'react';
+import { FiPlus } from 'react-icons/fi';
 
-import { Container, Header, Footer } from './styles';
+import { Container, ProductDetails, PlusButton } from './styles';
 
 interface ProductProps extends HTMLAttributes<HTMLDivElement> {
   src: string;
@@ -13,24 +14,21 @@ interface ProductProps extends HTMLAttributes<HTMLDivElement> {
 const Product: React.FC<ProductProps> = ({
   src,
   name,
-  quantity,
+  description,
   price,
   ...rest
 }) => {
   return (
     <Container {...rest}>
-      <Header>
-        <img src={src} alt={name} />
-        <h3>{name}</h3>
-      </Header>
-      <Footer>
-        <p>
-          {quantity > 1
-            ? `Disponíveis: ${quantity} unidades`
-            : `Disponível: ${quantity} unidade`}
-        </p>
+      <img src={src} alt={name} />
+      <ProductDetails>
+        <strong>{name}</strong>
+        <p>{description}</p>
         <h3>{price}</h3>
-      </Footer>
+      </ProductDetails>
+      <PlusButton>
+        <FiPlus size={32} />
+      </PlusButton>
     </Container>
   );
 };

@@ -2,45 +2,73 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  cursor: pointer;
-  width: 100%;
-  max-width: 550px;
+  position: relative;
+  max-width: 250px;
   margin: 9px;
+  margin-top: 96px;
 
-  background: #fcfdff;
-  box-shadow: 2px 2px 2px rgba(204, 204, 204, 0.5);
-  border-radius: 12px;
+  border: 2px solid var(--gray-hard);
+  border-radius: 30px;
 
-  padding: 8px;
+  padding: 24px;
+  transition: all 0.2s ease;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  text-align: start;
   transition: all 0.2s ease;
 
   &:hover {
-    background: #242424;
-    color: #ececec;
+    border: 2px solid var(--orange);
+  }
+
+  img {
+    width: 174px;
+    margin-top: -50%;
   }
 `;
 
-export const Header = styled.div`
+export const ProductDetails = styled.div`
   display: flex;
-  justify-content: flex-start;
+  flex-direction: column;
   flex: 1;
-  padding: 4px;
 
-  img {
-    width: 130px;
-    height: 130px;
-    margin-right: 8px;
-    border-radius: 8px;
+  strong {
+    margin-top: 24px;
+    margin-bottom: 16px;
+    font-size: 20px;
+  }
+
+  p {
+    color: var(--text-secondary);
+    margin-bottom: 32px;
   }
 
   h3 {
-    margin-right: 16px;
+    font-size: 24px;
   }
 `;
 
-export const Footer = styled.div`
+export const PlusButton = styled.div`
+  cursor: pointer;
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+
   display: flex;
-  justify-content: space-between;
-  flex: 1;
-  padding: 4px;
+  justify-content: center;
+  align-items: center;
+
+  background: var(--orange);
+  color: var(--background-secondary);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--orange-hard);
+  }
 `;

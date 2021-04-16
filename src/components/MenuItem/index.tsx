@@ -1,8 +1,8 @@
-import React, { AnchorHTMLAttributes } from 'react';
+import React, { HTMLAttributes } from 'react';
 
 import { Container } from './styles';
 
-interface MenuItemProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
+interface MenuItemProps extends HTMLAttributes<HTMLDivElement> {
   src: string;
   text: string;
   isSelected?: boolean;

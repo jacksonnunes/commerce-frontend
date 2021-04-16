@@ -10,9 +10,6 @@ import {
 
 import { useAuth } from '../../hooks/auth';
 
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
-
 import { Container, Content } from './styles';
 
 const AccountManagement: React.FC = () => {
@@ -20,8 +17,6 @@ const AccountManagement: React.FC = () => {
 
   return (
     <>
-      <Header />
-
       <Container>
         <h1>Gerenciamento de conta</h1>
 
@@ -55,8 +50,6 @@ const AccountManagement: React.FC = () => {
           </div>
         </Content>
       </Container>
-
-      <Footer />
     </>
   );
 };

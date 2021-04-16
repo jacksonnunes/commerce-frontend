@@ -9,7 +9,6 @@ import { Link, useHistory } from 'react-router-dom';
 import { useAddress } from '../../hooks/address';
 
 import Button from '../../components/Button';
-import Header from '../../components/Header';
 import api from '../../services/api';
 
 import { Container, Content, AddressContent, IconsSection } from './styles';
@@ -78,7 +77,6 @@ const Address: React.FC = () => {
 
   return (
     <>
-      <Header />
       <Container>
         <Button onClick={handleCreateAddress}>
           <FiPlusSquare />

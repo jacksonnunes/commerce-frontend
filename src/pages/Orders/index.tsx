@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { FiClock } from 'react-icons/fi';
 
-import Header from '../../components/Header';
 import api from '../../services/api';
 import formatValue from '../../utils/formatValue';
 
@@ -66,7 +65,6 @@ const Cart: React.FC = () => {
 
   return (
     <>
-      <Header />
       <Container>
         <h2>Pedidos</h2>
         <Content>

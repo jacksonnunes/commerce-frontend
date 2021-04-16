@@ -8,15 +8,27 @@ export default createGlobalStyle`
     box-sizing: border-box;
   }
 
+  :root {
+    --background: #121214;
+    --background-secondary: #202024;
+    --blue: #0050e6;
+    --green: #0da318;
+    --gray-hard: #3c3c44;
+    --orange: #febd2e;
+    --orange-hard: #e49c01;
+    --text-secondary: #a0a0ab;
+    --white: #fcfdff;
+  }
+
   body {
-    background: #F5F3F0;
+    background: var(--background);
     -webkit-font-smoothing: antialiased;
   }
 
   body, input, button {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 500;
-    color: #242424;
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 400;
+    color: var(--white);
   }
 
   button {

@@ -9,7 +9,6 @@ import api from '../../../services/api';
 
 import { useToast } from '../../../hooks/toast';
 import Button from '../../../components/Button';
-import Header from '../../../components/Header';
 import WhiteInput from '../../../components/Input/WhiteInput';
 import getValidationErrors from '../../../utils/getValidationErrors';
 
@@ -77,7 +76,6 @@ const CreateAddress: React.FC = () => {
 
   return (
     <>
-      <Header />
       <Container>
         <Content>
           <h2>Cadastrar endereço</h2>

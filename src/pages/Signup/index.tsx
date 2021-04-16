@@ -15,7 +15,6 @@ import api from '../../services/api';
 
 import { useToast } from '../../hooks/toast';
 
-import logoImg from '../../assets/rivoli_golden_logo.svg';
 import getValidationErrors from '../../utils/getValidationErrors';
 
 import Input from '../../components/Input/index';
@@ -99,8 +98,6 @@ const Signup: React.FC = () => {
 
         <Content>
           <AnimationContainer>
-            <img src={logoImg} alt="" />
-
             <Form ref={formRef} onSubmit={handleSubmit}>
               <h2>Crie uma conta</h2>
               <Input name="name" icon={FiUser} placeholder="Nome" />

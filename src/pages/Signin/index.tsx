@@ -9,7 +9,6 @@ import { useAuth } from '../../hooks/auth';
 import { useToast } from '../../hooks/toast';
 import getValidationErrors from '../../utils/getValidationErrors';
 
-import logoImg from '../../assets/rivoli_golden_logo.svg';
 import Input from '../../components/Input/index';
 import Button from '../../components/Button/index';
 
@@ -73,8 +72,6 @@ const Signin: React.FC = () => {
     <Background>
       <Container>
         <AnimationContainer>
-          <img src={logoImg} alt="Rivoli Logo" />
-
           <Form ref={formRef} onSubmit={handleSubmit}>
             <h2>Login</h2>
 

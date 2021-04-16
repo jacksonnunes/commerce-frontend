@@ -8,7 +8,6 @@ import { useProductForm } from '../../hooks/productRegister';
 
 import Button from '../../components/Button';
 import MenuItem from '../../components/MenuItem';
-import Header from '../../components/Header';
 import Product from '../../components/Product';
 
 import noImage from '../../assets/images/no-image.png';
@@ -82,8 +81,6 @@ const ProductManagement: React.FC = () => {
 
   return (
     <>
-      <Header isAdm />
-
       <Container>
         <Title>Gerenciamento de Produtos</Title>
         <Button onClick={() => addProductRegister()}>
