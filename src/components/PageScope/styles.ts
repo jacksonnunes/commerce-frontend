@@ -7,21 +7,48 @@ export const Container = styled.div`
   display: flex;
   width: 100%;
 
-  aside {
+  > aside {
     img {
       width: 234px;
       margin: 48px 22px 72px;
     }
   }
+
+  @media only screen and (max-width: 1499px) {
+    flex-direction: column;
+
+    > aside {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  @media only screen and (max-width: 849px) {
+    > aside {
+      margin: 16px 0 24px 16px;
+
+      img {
+        width: 180px;
+        margin: 0;
+      }
+    }
+  }
 `;
 
 export const Content = styled.div`
-  width: 100%;
+  flex: 1;
   padding: 24px;
 
   background: var(--background-secondary);
   border-radius: 20px;
   margin: 32px 32px 32px 0;
+
+  @media only screen and (max-width: 1499px) {
+    margin: 0 16px;
+    flex: 1;
+    border-radius: 10px;
+  }
 `;
 
 export const ContentHeader = styled.header`
@@ -40,9 +67,18 @@ export const ContentHeader = styled.header`
     height: 80px;
     background: var(--gray-hard);
     border-radius: 30px;
+    color: var(--white);
+    transition: all 0.2s ease-in-out;
 
-    svg {
-      color: var(--white);
+    &:hover {
+      background: var(--white);
+      color: var(--background-secondary);
+    }
+  }
+
+  @media only screen and (max-width: 1499px) {
+    div {
+      border-radius: 10px;
     }
   }
 `;

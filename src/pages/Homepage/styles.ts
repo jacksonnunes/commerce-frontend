@@ -1,4 +1,23 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+interface OrderProps {
+  status: 'pending' | 'preparing' | 'out' | 'done';
+}
+
+const orderStatusVariations = {
+  pending: css`
+    border: 1px solid var(--gray-hard);
+  `,
+  preparing: css`
+    background: var(--blue);
+  `,
+  out: css`
+    background: var(--blue);
+  `,
+  done: css`
+    background: var(--green);
+  `,
+};
 
 export const Content = styled.div`
   display: flex;
@@ -92,11 +111,14 @@ export const MiddleSection = styled.section`
 
       width: 54px;
       background: var(--gray-hard);
+      color: var(--white);
       border: none;
       border-radius: 0 15px 15px 0;
+      transition: all 0.2s ease;
 
-      svg {
-        color: var(--white);
+      &:hover {
+        background: var(--white);
+        color: var(--background-secondary);
       }
     }
   }
@@ -114,6 +136,7 @@ export const Middle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 40px;
   color: var(--white);
 
   h2 {
@@ -121,19 +144,52 @@ export const Middle = styled.div`
   }
 
   div {
+    cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
 
     background: var(--gray-hard);
+    color: var(--white);
     width: 54px;
     height: 54px;
     border-radius: 15px;
+    transition: all 0.2s ease;
 
-    svg {
-      color: var(--white);
+    &:hover {
+      background: var(--white);
+      color: var(--background-secondary);
     }
   }
 `;
 
 export const Orders = styled.div``;
+
+export const Order = styled.div<OrderProps>`
+  padding: 12px;
+  border-radius: 10px;
+
+  ${props => orderStatusVariations[props.status]}
+
+  section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 16px;
+  }
+
+  div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    span + span {
+      margin-top: 8px;
+    }
+  }
+
+  & + div {
+    margin-top: 16px;
+  }
+`;
