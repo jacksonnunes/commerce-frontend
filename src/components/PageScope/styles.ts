@@ -59,6 +59,7 @@ export const ContentHeader = styled.header`
   margin-bottom: 40px;
 
   div {
+    cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;

@@ -5,7 +5,6 @@ import api from '../../services/api';
 import formatValue from '../../utils/formatValue';
 
 import {
-  Container,
   Content,
   Ticket,
   TicketHeader,
@@ -64,78 +63,73 @@ const Cart: React.FC = () => {
   }, []);
 
   return (
-    <>
-      <Container>
-        <h2>Pedidos</h2>
-        <Content>
-          {orders.map(order => (
-            <Ticket key={order.id}>
-              <TicketHeader>
-                <strong>{`# ${order.order_number}`}</strong>
+    <Content>
+      {orders.map(order => (
+        <Ticket key={order.id}>
+          <TicketHeader>
+            <strong>{`# ${order.order_number}`}</strong>
+            <span>
+              Aguardando confirmação
+              <FiClock />
+            </span>
+          </TicketHeader>
+
+          <TicketUpdate>
+            <span>Atualizado em 11/03/2021 às 09:30</span>
+          </TicketUpdate>
+
+          <Products>
+            {order.orders_products.map(order_product => (
+              <div>
+                <span>{`${order_product.quantity}x ${order_product.product.name}`}</span>
                 <span>
-                  Aguardando confirmação
-                  <FiClock />
+                  {productTotalValue(
+                    order_product.quantity,
+                    order_product.price,
+                  )}
                 </span>
-              </TicketHeader>
+              </div>
+            ))}
+          </Products>
 
-              <TicketUpdate>
-                <span>Atualizado em 11/03/2021 às 09:30</span>
-              </TicketUpdate>
+          <Bill>
+            <div>
+              <span>Subtotal</span>
+              <span>{formatValue(order.subtotal)}</span>
+            </div>
+            <div>
+              <span>Taxa de entrega</span>
+              <span>{formatValue(order.delivery_tax)}</span>
+            </div>
+            <div>
+              <span>Total</span>
+              <span>{formatValue(order.total)}</span>
+            </div>
+            {order.money && (
+              <div>
+                <span>Troco para:</span>
+                <span>{formatValue(order.money)}</span>
+              </div>
+            )}
+          </Bill>
 
-              <Products>
-                {order.orders_products.map(order_product => (
-                  <div>
-                    <span>{`${order_product.quantity}x ${order_product.product.name}`}</span>
-                    <span>
-                      {productTotalValue(
-                        order_product.quantity,
-                        order_product.price,
-                      )}
-                    </span>
-                  </div>
-                ))}
-              </Products>
-
-              <Bill>
-                <div>
-                  <span>Subtotal</span>
-                  <span>{formatValue(order.subtotal)}</span>
-                </div>
-                <div>
-                  <span>Taxa de entrega</span>
-                  <span>{formatValue(order.delivery_tax)}</span>
-                </div>
-                <div>
-                  <span>Total</span>
-                  <span>{formatValue(order.total)}</span>
-                </div>
-                {order.money && (
-                  <div>
-                    <span>Troco para:</span>
-                    <span>{formatValue(order.money)}</span>
-                  </div>
-                )}
-              </Bill>
-
-              <Address>
-                <strong>Endereço de entrega</strong>
-                <span>
-                  {order.address &&
-                    `${order.address.street}, ${order.address.address_number}`}
-                  {order.address &&
-                    order.address.complement &&
-                    ` - ${order.address.complement}`}
-                </span>
-                <span>
-                  {order.address &&
-                    `${order.address.neighborhood} - ${order.address.city}/${order.address.state}`}
-                </span>
-              </Address>
-            </Ticket>
-          ))}
-        </Content>
-      </Container>
-    </>
+          <Address>
+            <strong>Endereço de entrega</strong>
+            <span>
+              {order.address &&
+                `${order.address.street}, ${order.address.address_number}`}
+              {order.address &&
+                order.address.complement &&
+                ` - ${order.address.complement}`}
+            </span>
+            <span>
+              {order.address &&
+                `${order.address.neighborhood} - ${order.address.city}/${order.address.state}`}
+            </span>
+          </Address>
+        </Ticket>
+      ))}
+    </Content>
   );
 };
 

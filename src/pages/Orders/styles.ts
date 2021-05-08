@@ -4,37 +4,31 @@ interface StatusProps {
   status?: 'pending' | 'preparing' | 'done';
 }
 
-export const Container = styled.div`
-  position: relative;
-  max-width: 1150px;
-  margin: 0 auto;
-
-  font-weight: 400;
-
-  h2 {
-    font-family: Amaranth, sans-serif;
-    padding: 32px 24px;
-  }
-`;
-
 export const Content = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: stretch;
 
   flex-wrap: wrap;
+
+  @media only screen and (max-width: 904px) {
+    justify-content: center;
+  }
 `;
 
 export const Ticket = styled.div`
   position: relative;
   padding: 16px;
-  margin: 4px;
-  margin-bottom: 16px;
-  width: 450px;
+  margin: 8px;
+  margin-bottom: 24px;
+  width: 31.8%;
+  max-width: 450px;
 
   background: #f5f5bc;
-  box-shadow: 8px 12px 14px rgba(204, 204, 204, 0.5);
   border-radius: 8px;
+
+  color: var(--background-secondary);
+  font-size: 18px;
 
   &:after {
     background: linear-gradient(-45deg, transparent 16px, #f5f5bc 0),
@@ -53,7 +47,11 @@ export const Ticket = styled.div`
     left: 0px;
   }
 
-  @media only screen and (max-width: 550px) {
+  @media only screen and (max-width: 1149px) {
+    width: 48%;
+  }
+
+  @media only screen and (max-width: 904px) {
     width: 100%;
   }
 `;

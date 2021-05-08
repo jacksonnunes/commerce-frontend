@@ -6,6 +6,7 @@ import Route from './Route';
 import Signin from '../pages/Signin';
 import Signup from '../pages/Signup';
 import Homepage from '../pages/Homepage';
+import ProductsMenu from '../pages/ProductsMenu';
 
 import AccountManagement from '../pages/AccountManagement';
 import ProductsManagement from '../pages/ProductsManagement';
@@ -21,6 +22,7 @@ const Routes: React.FC = () => (
     <Route path="/signup" component={Signup} />
 
     <Route path="/home" component={Homepage} isPrivate />
+    <Route path="/menu" component={ProductsMenu} isPrivate />
     <Route
       path="/products-management"
       component={ProductsManagement}

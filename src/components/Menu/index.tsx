@@ -33,7 +33,7 @@ const DropMenu: React.FC = () => {
         isSelected={selectedOption === 2}
         onClick={() => handleSelectedOption(2)}
       >
-        <Link to="/home">
+        <Link to="/menu">
           <div>
             <FiBookOpen size={35} />
           </div>
@@ -45,7 +45,7 @@ const DropMenu: React.FC = () => {
         isSelected={selectedOption === 3}
         onClick={() => handleSelectedOption(3)}
       >
-        <Link to="/home">
+        <Link to="/orders">
           <div>
             <FiClipboard size={35} />
           </div>

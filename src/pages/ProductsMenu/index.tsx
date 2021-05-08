@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { FiChevronRight, FiSearch } from 'react-icons/fi';
-import { format, parseISO } from 'date-fns';
+import { FiSearch } from 'react-icons/fi';
 
 import api from '../../services/api';
 import formatValue from '../../utils/formatValue';
@@ -13,11 +12,6 @@ import {
   Content,
   ProductsContainer,
   MiddleSection,
-  Announcement,
-  OrdersContainer,
-  Middle,
-  Orders,
-  Order,
 } from './styles';
 
 interface Category {
@@ -35,33 +29,9 @@ interface Product {
   image: string;
 }
 
-interface Order {
-  id: string;
-  date: string;
-  status: 'pending' | 'preparing' | 'out' | 'done';
-  orders_products: [
-    {
-      id: string;
-      quantity: number;
-      price: number;
-      product: {
-        name: string;
-      };
-    },
-  ];
-}
-
-const orderStatus = {
-  pending: <span>Aguardando confirmação</span>,
-  preparing: <span>Em preparo</span>,
-  out: <span>Saiu para entrega</span>,
-  done: <span>Entregue</span>,
-};
-
 const Homepage: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
-  const [orders, setOrders] = useState<Order[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<
     string | undefined
   >();
@@ -95,33 +65,6 @@ const Homepage: React.FC = () => {
     }
     loadProducts();
   }, [selectedCategory]);
-
-  useEffect(() => {
-    async function loadOrders(): Promise<void> {
-      api.get<Order[]>('/orders/me').then(response => {
-        const ordersFormatted = response.data.map(order => {
-          return {
-            ...order,
-            date: format(parseISO(order.date), 'dd/MM/yyyy'),
-          };
-        });
-
-        if (ordersFormatted.length > 3) {
-          const lastThreeOrders = ordersFormatted.slice(-3);
-
-          lastThreeOrders.reverse();
-
-          setOrders(lastThreeOrders);
-        } else {
-          ordersFormatted.reverse();
-
-          setOrders(ordersFormatted);
-        }
-      });
-    }
-
-    loadOrders();
-  }, []);
 
   const handleSelectCategory = useCallback(
     (category_id: string) => {
@@ -174,36 +117,6 @@ const Homepage: React.FC = () => {
           </div>
         </ProductsContainer>
       </main>
-      <aside>
-        <Announcement />
-
-        <OrdersContainer>
-          <Middle>
-            <h2>Pedidos</h2>
-
-            <div>
-              <FiChevronRight size={24} />
-            </div>
-          </Middle>
-
-          <Orders>
-            {orders.map(order => (
-              <Order key={order.id} status={order.status}>
-                <section>
-                  <span>{order.date}</span>
-                  {orderStatus[order.status]}
-                </section>
-                {order.orders_products.map(order_product => (
-                  <div>
-                    <span>{`${order_product.quantity} ${order_product.product.name}`}</span>
-                    <span>{formatValue(order_product.price)}</span>
-                  </div>
-                ))}
-              </Order>
-            ))}
-          </Orders>
-        </OrdersContainer>
-      </aside>
     </Content>
   );
 };

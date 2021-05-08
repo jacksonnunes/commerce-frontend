@@ -8,7 +8,7 @@ export const Container = styled.div<CategoryItemProps>`
   cursor: pointer;
   background: var(--gray-hard);
   width: 136px;
-  margin: 0 24px 64px 0;
+  margin: 0 24px 0 0;
   padding: 24px;
   border-radius: 50px;
 
@@ -38,5 +38,14 @@ export const Container = styled.div<CategoryItemProps>`
 
   p {
     font-size: 20px;
+  }
+
+  @media only screen and (max-width: 1499px) {
+    border-radius: 20px;
+    width: 120px;
+
+    img {
+      width: 88px;
+    }
   }
 `;

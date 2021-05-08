@@ -1,50 +1,19 @@
-import styled, { css } from 'styled-components';
-
-interface OrderProps {
-  status: 'pending' | 'preparing' | 'out' | 'done';
-}
-
-const orderStatusVariations = {
-  pending: css`
-    border: 1px solid var(--gray-hard);
-  `,
-  preparing: css`
-    background: var(--blue);
-  `,
-  out: css`
-    background: var(--blue);
-  `,
-  done: css`
-    background: var(--green);
-  `,
-};
+import styled from 'styled-components';
 
 export const Content = styled.div`
   display: flex;
-
-  main {
-    margin-right: 24px;
-  }
-
-  aside {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 1;
-  }
+  justify-content: center;
 
   @media only screen and (max-width: 1249px) {
     flex-direction: column-reverse;
     align-items: center;
 
     main {
-      width: 100%;
-      margin-right: 0;
-    }
+      display: flex;
+      flex-direction: column;
 
-    aside {
       width: 100%;
-      margin-bottom: 24px;
+      max-width: 810px;
     }
   }
 `;
@@ -100,8 +69,6 @@ export const ProductsContainer = styled.section`
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
-
-    width: max-content;
   }
 `;
 
@@ -163,81 +130,5 @@ export const MiddleSection = styled.section`
       margin: 0;
       max-width: 100%;
     }
-  }
-`;
-
-export const Announcement = styled.div`
-  background: var(--blue);
-  width: 100%;
-  max-width: 450px;
-  height: 220px;
-  margin-bottom: 56px;
-  border-radius: 20px;
-`;
-
-export const OrdersContainer = styled.div`
-  width: 100%;
-  max-width: 450px;
-`;
-
-export const Middle = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 40px;
-  color: var(--white);
-
-  h2 {
-    font-size: 32px;
-  }
-
-  div {
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    background: var(--gray-hard);
-    color: var(--white);
-    width: 54px;
-    height: 54px;
-    border-radius: 15px;
-    transition: all 0.2s ease;
-
-    &:hover {
-      background: var(--white);
-      color: var(--background-secondary);
-    }
-  }
-`;
-
-export const Orders = styled.div``;
-
-export const Order = styled.div<OrderProps>`
-  padding: 12px;
-  border-radius: 10px;
-
-  ${props => orderStatusVariations[props.status]}
-
-  section {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    margin-bottom: 16px;
-  }
-
-  div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    span + span {
-      margin-top: 8px;
-    }
-  }
-
-  & + div {
-    margin-top: 16px;
   }
 `;

@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import GlobalStyle from './styles/global';
 
 import AppProvider from './hooks/index';
+import PageScope from './components/PageScope';
 
 import Routes from './routes';
 
@@ -12,7 +13,9 @@ const App: React.FC = () => {
     <>
       <AppProvider>
         <Router>
-          <Routes />
+          <PageScope title="Título">
+            <Routes />
+          </PageScope>
         </Router>
       </AppProvider>
 
